@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour {
     public GameObject[] panels;
-    
+    public bool op;
 
     //first
     public GameObject msg;
@@ -15,7 +15,13 @@ public class Menu : MonoBehaviour {
   
     public void TryPlay()
     {
-        msg.SetActive(true);
+        if (op) {
+            panels[3].SetActive(true);
+        }
+        else
+        {
+            msg.SetActive(true);
+        }
     }
     public void Close() {
         msg.SetActive(false);
@@ -50,6 +56,7 @@ public class Menu : MonoBehaviour {
         if (keyd) {
             Destroy(key);
             panels[2].SetActive(true);
+            op = true;
         }
     }    
      //
