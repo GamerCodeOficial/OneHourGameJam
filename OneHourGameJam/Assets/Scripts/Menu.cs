@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
+
+    public AudioSource source;
+
     public GameObject[] panels;
     public bool op;
+    public bool play;
 
     //first
     public GameObject msg;
     public GameObject options;
     public GameObject btn;
-
+ 
 
   
     public void TryPlay()
     {
-        if (op) {
-            panels[3].SetActive(true);
+        if (play) {
+            panels[2].SetActive(true);
         }
         else
         {
@@ -28,10 +33,19 @@ public class Menu : MonoBehaviour {
     }
     public void Fall() {
        Destroy(btn);
+        crack.SetActive(true);
         panels[1].SetActive(true);
     }
     public void Options() {
-        options.SetActive(true);
+        if (!op)
+        {
+            options.SetActive(true);
+            rOptions.SetActive(false);
+        }
+        else {
+            options.SetActive(false);
+            rOptions.SetActive(true);
+        }
     }
     public void OOClose()
     {
@@ -51,15 +65,29 @@ public class Menu : MonoBehaviour {
     }
     //
     //tres
+    public GameObject rOptions;
+
 
     public void checkKey() {
         if (keyd) {
             Destroy(key);
-            panels[2].SetActive(true);
+            
             op = true;
+            Options();
         }
-    }    
-     //
+    }
+    //
+    //quatro
+    public Slider slide;
+    public Slider sSlide;
+    public GameObject inp;
+    public GameObject message;
+
+    public void ROClose()
+    {
+        rOptions.SetActive(false);
+    }
+    //
 
     public void CloseApp() {
         Application.Quit();
@@ -68,6 +96,7 @@ public class Menu : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        crack.SetActive(false);
         key.SetActive(false);
         msg.SetActive(false);
         options.SetActive(false);
@@ -76,7 +105,16 @@ public class Menu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+            Color color = inp.GetComponent<Image>().color;
+            
+            color.a = slide.value;
+            inp.GetComponent<Image>().color = color;
+        
+            message.SetActive(slide.value > 0.95f);
+
+         source.volume = sSlide.value;
+        play = (inp.GetComponent<InputField>().text=="2725");
+        
+    }
    
 }
